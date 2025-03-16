@@ -1,0 +1,64 @@
+[{
+  "_id": {
+    "$oid": "67b5bea73201f2b27e716024"
+  },
+  "title": "The Great Gatsby",
+  "author": "F. Scott Fitzgerald",
+  "genre": "Classic",
+  "Url": "https://cdn.kobo.com/book-images/2411acbb-9daa-43fb-a5a2-a9aec064e17e/1200/1200/False/the-great-gatsby-238.jpg",
+  "borrowedBy": ""
+},{
+  "_id": {
+    "$oid": "67b5bea73201f2b27e716025"
+  },
+  "title": "To Kill a Mockingbird",
+  "author": "Harper Lee",
+  "genre": "Fiction",
+  "Url": "https://cdn.britannica.com/21/182021-050-666DB6B1/book-cover-To-Kill-a-Mockingbird-many-1961.jpg",
+  "borrowedBy": ""
+},{
+  "_id": {
+    "$oid": "67b5bea73201f2b27e716026"
+  },
+  "title": "1984",
+  "author": "George Orwell",
+  "genre": "Dystopian",
+  "Url": "https://m.media-amazon.com/images/I/41qUUoeLrOS._SL500_.jpg",
+  "borrowedBy": ""
+},{
+  "_id": {
+    "$oid": "67b5bea73201f2b27e716027"
+  },
+  "title": "Harry Potter and the Sorcerer's Stone",
+  "author": "J.K. Rowling",
+  "genre": "Fantasy",
+  "Url": "https://m.media-amazon.com/images/I/81q77Q39nEL.jpg",
+  "borrowedBy": ""
+},{
+  "_id": {
+    "$oid": "67b5bea73201f2b27e716028"
+  },
+  "title": "The Hobbit",
+  "author": "J.R.R. Tolkien",
+  "genre": "Fantasy",
+  "Url": "https://m.media-amazon.com/images/I/81uEDUfKBZL._AC_UF1000,1000_QL80_.jpg",
+  "borrowedBy": ""
+},{
+  "_id": {
+    "$oid": "67b5bea73201f2b27e716029"
+  },
+  "title": "Pride and Prejudice",
+  "author": "Jane Austen",
+  "genre": "Romance",
+  "Url": "https://cdn.kobo.com/book-images/1a735d96-6075-4bca-87b7-15fb97ee50c7/353/569/90/False/pride-and-prejudice-216.jpg\n",
+  "borrowedBy": ""
+},{
+  "_id": {
+    "$oid": "67b5bea73201f2b27e71602a"
+  },
+  "title": "The Catcher in the Rye",
+  "author": "J.D. Salinger",
+  "genre": "Fiction",
+  "Url": "https://npr.brightspotcdn.com/dims4/default/f735808/2147483647/strip/true/crop/363x574+0+0/resize/880x1392!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Flegacy%2Fsites%2Fwkar%2Ffiles%2Fcatcher_in_the_rye_cover.png",
+  "borrowedBy": ""
+}]

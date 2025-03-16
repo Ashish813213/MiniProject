@@ -1,0 +1,50 @@
+[{
+  "_id": {
+    "$oid": "67caccf12288363f624154f3"
+  },
+  "email": "Ashishsharma12549@gmail.com",
+  "password": "$2b$10$Hy6tZCDx2cuBjCWTEecylOkYopa5G5K6/zyZ1HRHgT3wK2CRcjgNS",
+  "BooksBorrowed": [
+    {
+      "returnDate": "2025-03-28",
+      "_id": {
+        "$oid": "67cdb5e7dc26b6ef759c6271"
+      }
+    },
+    {
+      "returnDate": "2025-03-28",
+      "_id": {
+        "$oid": "67cf243b2b28920fc13488c0"
+      }
+    }
+  ],
+  "__v": 0,
+  "name": "Ashish"
+},{
+  "_id": {
+    "$oid": "67cacd652288363f624154f8"
+  },
+  "email": "Raju1234@gmail.com",
+  "password": "$2b$10$UmsoH//I57eExyeHGRVz0ekb.5M1iULt8LbV46Ii.J18Mryh1D6BC",
+  "BooksBorrowed": [],
+  "__v": 0,
+  "name": "Raju"
+},{
+  "_id": {
+    "$oid": "67cacddd2288363f624154fb"
+  },
+  "email": "OmenSharma@gmail.com",
+  "password": "$2b$10$aX.1Zhfi6ObagwFRq6TF1uH1q6YXNAE2QIdn2zpv4VoyHjtxfGd1q",
+  "BooksBorrowed": [],
+  "__v": 0,
+  "name": "Omen"
+},{
+  "_id": {
+    "$oid": "67cace6f2288363f624154fe"
+  },
+  "email": "PekkaKumar@gmail.com",
+  "password": "$2b$10$RPvoRRM27UuscOkNAAvxXu1Vv/eZWCsJ1RqFoQ44yZyZ0V2/1jNVm",
+  "BooksBorrowed": [],
+  "__v": 0,
+  "name": "Pekka"
+}]

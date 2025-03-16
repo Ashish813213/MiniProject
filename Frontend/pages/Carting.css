@@ -1,0 +1,151 @@
+.titleC{
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: center;
+}
+.ContainerC{
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.CardC{
+    
+    width: 100%;
+    border-radius: 12px;
+
+
+}
+.Card{
+    padding: 12px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-size: 25px;
+    font-weight: 400;
+    border-bottom: 1px solid black;
+    margin: 5px;
+}
+
+.ButtonC > button{
+    margin: 5px;
+    padding: 5px 15px;
+    color: white;
+}
+.Card> img{
+    width: 220px;
+    height: 300px;
+    border-radius: 12px;
+}
+
+/* Center the modal on the page */
+.ReactModal__Content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5) !important; /* Semi-transparent background */
+  }
+  
+  /* Modal content styling */
+  .Cancel.PopUP,
+  .Borrow.PopUP {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Heading styling */
+  .Cancel.PopUP h2,
+  .Borrow.PopUP h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Paragraph styling */
+  .Cancel.PopUP p,
+  .Borrow.PopUP p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  /* Span styling (for book title) */
+  .Cancel.PopUP span,
+  .Borrow.PopUP span {
+    font-weight: bold;
+    color: #000;
+  }
+  
+  /* Input styling */
+  .Borrow.PopUP input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Button container styling */
+  .Cancel.PopUP div,
+  .Borrow.PopUP div {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  /* Button styling */
+  .Cancel.PopUP button,
+  .Borrow.PopUP button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Cancel button styling */
+  .Cancel.PopUP button:first-child,
+  .Borrow.PopUP button:first-child {
+    background-color: #6c757d; /* Gray */
+    color: white;
+  }
+  
+  .Cancel.PopUP button:first-child:hover,
+  .Borrow.PopUP button:first-child:hover {
+    background-color: #5a6268; /* Darker gray */
+  }
+  
+  /* Remove/Confirm button styling */
+  .Cancel.PopUP button:last-child {
+    background-color: #dc3545; /* Red */
+    color: white;
+  }
+  
+  .Cancel.PopUP button:last-child:hover {
+    background-color: #c82333; /* Darker red */
+  }
+  
+  .Borrow.PopUP button:last-child {
+    background-color: #28a745; /* Green */
+    color: white;
+  }
+  
+  .Borrow.PopUP button:last-child:hover {
+    background-color: #218838; /* Darker green */
+  }
+  
+  /* Disabled button styling */
+  .Borrow.PopUP button:disabled {
+    background-color: #6c757d; /* Gray */
+    cursor: not-allowed;
+  }
