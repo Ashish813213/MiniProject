@@ -94,7 +94,7 @@ function HeroPage() {
               </span></p>
             </div>
             <div className="pricing">
-              <span>₹ <big>69.00</big>/mo</span>
+              <span>₹ <big>169.00</big>/mo</span>
             </div>
 
             <button>Choose Plan</button>
