@@ -29,7 +29,7 @@ const UserList = () => {
           <tr>
             <th className="py-2 px-4 border">Name</th>
             <th className="py-2 px-4 border">Email</th>
-            <th className="py-2 px-4 border">Role</th>
+            <th className="py-2 px-4 border">BooksTaken</th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@ const UserList = () => {
             <tr key={user.id}>
               <td className="py-2 px-4 border">{user.name}</td>
               <td className="py-2 px-4 border">{user.email}</td>
-              <td className="py-2 px-4 border">{user.role}</td>
+              <td className="py-2 px-4 border">{user.BooksBorrowed.length}</td>
             </tr>
           ))}
         </tbody>

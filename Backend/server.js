@@ -9,7 +9,8 @@ const UserRouter = require('./routes/User')
 
 const app = express();
 app.use(bodyParser.json());
-
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
 app.use(cors());
 
   connectDB().then(() => {

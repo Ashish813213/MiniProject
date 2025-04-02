@@ -1,95 +1,172 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from 'react';
+import '../src/assets/Dashboard.css';
+import axios from "axios"
+import  { useState, useEffect } from "react";
 
-const Dashboard = () => {
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-  });
-  const [booksTaken, setBooksTaken] = useState([]); // Separate state for borrowed books
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const id = localStorage.getItem("userId");
-
-        if (!id) {
-          console.log("No user ID found in localStorage.");
-          return;
-        }
-
-        // Fetch user details
-        const userResponse = await axios.get(`http://localhost:3001/user/${id}`);
-        setUser({
-          name: userResponse.data.name,
-          email: userResponse.data.email,
+const handlePayment = async () => {
+    try {
+        // Create order via backend
+        const response = await axios.post('http://localhost:3001/user/create-order', {
+            amount: 500, // Amount in rupees
+            currency: 'INR',
         });
 
-        // Fetch borrowed books
-        const booksResponse = await axios.get(
-          `http://localhost:3001/user/api/user/borrowed-books/${id}`
-        );
-        setBooksTaken(booksResponse.data.data); // Store borrowed books in state
+        const { id: order_id, amount, currency } = response.data;
 
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+        // Set up RazorPay options
+        const options = {
+            key: "rzp_test_MYbcSbMch66v2D", // Replace with your RazorPay Key ID
+            amount: amount,
+            currency: currency,
+            name: "Library System",
+            description: "Test Transaction",
+            order_id: order_id,
+            handler: (response) => {
+                alert(`Payment Successful! Payment ID: ${ response.razorpay_payment_id }`);
+            },
+            prefill: {
+                name: "Ashish Sharma",
+                email: "Ashishsharma12549@gmail.com",
+                contact: "9999999999",
+            },
+            theme: {
+                color: "#3399cc",
+            },
+        };
 
-    fetchUserData();
-  }, []);
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+    } catch (error) {
+        console.error('Payment initiation failed:', error);
+    }
+};
 
-  return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto">
-        {/* User Info Section */}
-        <div className="bg-white p-8 rounded-lg shadow-md mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Dashboard</h1>
-          <div className="space-y-4">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-700">Name</h2>
-              <p className="text-gray-600">{user.name}</p>
+
+
+const checkDUE = (dueDate) => {
+    const CurrentDate = new Date();
+    const dueDateint = new Date(dueDate);
+    if (CurrentDate > dueDateint) {
+        return true;
+    }
+    return false;
+
+}
+const BookCard = ({ title, author, dueDate , Url ,borrowedBy }) => (
+    
+    <div className="book-card">
+        <div className="book-content">
+            <img src= {Url} alt="Book cover" className="book-image" />
+            <div className="book-details">
+                <h4 className="book-title">{title}</h4>
+                <p className="book-author">{author}</p>
+                <p className="book-due">Due Date: {borrowedBy[0].returnDate}</p>
+                <button className="renew-button">Renew</button>
+                {checkDUE(borrowedBy[0].returnDate) && (
+                    <>
+                    {console.log(borrowedBy.returnDate + " " + dueDate)}
+                        <button className="Pay-Fine" onClick={handlePayment}> Pay Fine</button>
+                    </>
+                )}
+
             </div>
-            <div>
-              <h2 className="text-xl font-semibold text-gray-700">Email</h2>
-              <p className="text-gray-600">{user.email}</p>
+        </div>
+    </div>
+);
+
+const Dashboard = () => {
+
+    const [user, setUser] = useState({
+        name: "",
+        email: "",
+        Phone_no: "",
+      });
+      const [booksTaken, setBooksTaken] = useState([]); // Separate state for borrowed books
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+    
+      useEffect(() => {
+        const fetchUserData = async () => {
+          try {
+            const id = localStorage.getItem("userId");
+            if (!id) {
+              console.log("No user ID found in localStorage.");
+              return;
+            }
+            // Fetch user details
+            const userResponse = await axios.get(`http://localhost:3001/user/${id}`);
+            setUser({
+              name: userResponse.data.name,
+              email: userResponse.data.email,
+              Phone_no: userResponse.data.Phone_no,
+            });
+            // Fetch borrowed books
+            const booksResponse = await axios.get(
+              `http://localhost:3001/user/api/user/borrowed-books/${id}`
+            );
+            setBooksTaken(booksResponse.data.data); // Store borrowed books in state
+          } catch (err) {
+            setError(err);
+          } finally {
+            setLoading(false);
+          }
+        };
+        fetchUserData();
+      }, []);
+    
+      if (loading) {
+        return (
+          <div className="min-h-screen flex items-center justify-center bg-white">
+            <div className="p-8 rounded-lg shadow-md">
+              <p className="text-xl font-semibold text-gray-700">Loading...</p>
             </div>
           </div>
-        </div>
-
-        {/* Books Taken Section */}
-        <div className="bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Books Taken</h2>
-          {booksTaken.length > 0 ? (
-            <div className="space-y-4">
-              {booksTaken.map((book) => (
-                <div
-                  key={book._id}
-                  className="p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow duration-200"
-                >
-                  <h3 className="text-xl font-semibold text-gray-800">{book.title}</h3>
-                  <p className="text-gray-600">
-                    <span className="font-medium">Return Date:</span> {book.borrowedBy[0].returnDate}
-                  </p>
-                  <img
-                    src={book.Url}
-                    alt={book.title}
-                    className="mt-2 object-cover rounded-md shadow-sm"
-                    style={{
-                      width:"150px",
-                      height:"200px"
-                    }}
-                  />
-                </div>
-              ))}
+        );
+      }
+    
+      if (error) {
+        return (
+          <div className="min-h-screen flex items-center justify-center bg-white">
+            <div className="p-8 rounded-lg shadow-md">
+              <p className="text-xl font-semibold text-red-500">Error fetching data: {error.message}</p>
             </div>
-          ) : (
-            <p className="text-gray-600">No books taken yet.</p>
-          )}
+          </div>
+        );
+      }
+
+
+    return (
+        <div className="dashboard">
+
+            <main className="main-content">
+                <div className="profile-card">
+                    <div className="profile-info">
+                        <div className="avatar">
+                            <span>AS</span>
+                        </div>
+                        <div className="user-info">
+                            <h2>{user.name}</h2>
+                            <p>{user.Phone_no}</p>
+                            <p>{user.email}</p>
+                            <p>Member since: January 2024</p>
+                            <p>Books borrowed: {booksTaken.length}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="books-section">
+                    <h3>Currently Borrowed Books</h3>
+                    <div className="books-grid">
+                        {console.log(booksTaken)}
+                        {booksTaken.map(book => (
+                            
+                            <BookCard  key={book.id} {...book} />
+                        ))}
+                    </div>
+                </div>
+            </main>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Dashboard;

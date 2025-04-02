@@ -10,10 +10,12 @@ const BookModel = require('../models/book');
 const AdminModel = require('../models/Admin');
 const cloudinary = require("../utils/cloudinary");
 const upload = require("../middleware/multer");
+const Razorpay = require("razorpay");
+
 
 router.post('/register', async (req, res) => {
     try {
-        const { name , email, password } = req.body;
+        const { name , email, password, Phone_no} = req.body;
 
         const existingUser = await UserModel.findOne({ email });
         if (existingUser) {
@@ -26,6 +28,7 @@ router.post('/register', async (req, res) => {
             name,
             email,
             password: hashedPassword,
+            Phone_no,
         });
 
         res.status(201).send(newUser);
@@ -34,7 +37,6 @@ router.post('/register', async (req, res) => {
         res.status(500).send(err.message);
     }
 });
-
 
 router.post('/login', async (req, res) => {
     try {
@@ -278,5 +280,63 @@ router.get('/api/user/borrowed-books/:userId', async (req, res) => {
     }
   });
 
+
+  router.post('/create-order', async (req, res) => {
+    const razorpayInstance = new Razorpay({
+        key_id: "rzp_test_MYbcSbMch66v2D", // Use environment variables for security
+        key_secret: "rBIpnF3m899kIRGvlWOZVKBS",
+    });
+
+    const { amount, currency } = req.body;
+    try {
+        const options = {
+            amount: amount * 100, // Convert amount to smallest currency unit
+            currency: currency || 'INR',
+        };
+
+        const order = await razorpayInstance.orders.create(options);
+        res.status(200).json(order);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error creating RazorPay order');
+    }
+})
+
+  router.post("/order/validate", async (req, res) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      req.body;
+  
+    const sha = crypto.createHmac("sha256", "rBIpnF3m899kIRGvlWOZVKBS");
+    //order_id + "|" + razorpay_payment_id
+    sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
+    const digest = sha.digest("hex");
+    if (digest !== razorpay_signature) {
+      return res.status(400).json({ msg: "Transaction is not legit!" });
+    }
+  
+    res.json({
+      msg: "success",
+      orderId: razorpay_order_id,
+      paymentId: razorpay_payment_id,
+    });
+  });
+
+router.post("/api/removeBook", async (req, res) => {
+    const { bookId } = req.body; // Extract bookId from the request body
+
+    try {
+        // Find the book by ID and remove it
+        const deletedBook = await BookModel.findByIdAndDelete(bookId);
+
+        if (!deletedBook) {
+            return res.status(404).json({ message: 'Book not found' });
+        }
+
+        res.status(200).json({ message: 'Book removed successfully', deletedBook });
+    } catch (error) {
+        console.error('Error removing book:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
 
 module.exports = router;

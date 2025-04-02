@@ -14,6 +14,7 @@ import Dashboard from '../pages/Dashboard';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import AdminRoutes from './components/AdminRoutes';
 import HeroPage from '../pages/HeroPage';
+import Dashboard2 from '../pages/Dashboard2';
 
 const App = () => {
   const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')) || false;
@@ -32,7 +33,8 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/admin" element={<Admin />} />
               <Route path ="/hero" element={<HeroPage/>}/>
-
+              <Route path ="/" element={<HeroPage/>}/>
+              
             </>
           ) : (
             <>
@@ -47,6 +49,7 @@ const App = () => {
             <Route path="/books" element={<Book />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard2" element={<Dashboard2 />} />
           </Route>
 
           {/* Admin Protected Routes (Only for Admins) */}
