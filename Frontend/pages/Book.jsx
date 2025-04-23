@@ -12,7 +12,7 @@ const Book = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3001/user/api/getBooks')
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/user/api/getBooks`)
       .then((response) => {
         setBooks(response.data);
         setLoading(false);
@@ -29,7 +29,7 @@ const Book = () => {
   };
   const handleRemoveBook = (book) => {
     console.log('Remove book:', book);
-    axios.post('http://localhost:3001/user/api/removeBook', { bookId: book._id })
+    axios.post('${import.meta.env.VITE_SERVER_URL}/user/api/removeBook', { bookId: book._id })
       .then((response) => {
         if (response.status === 200) {
           setBooks((prevBooks) => prevBooks.filter((b) => b._id !== book._id));

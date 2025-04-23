@@ -16,7 +16,7 @@ const Register = () => {
     } else {
       setError('');
       console.log('Form submitted');
-      axios.post('http://localhost:3001/user/register', { name, email, password })
+      axios.post(`${import.meta.env.VITE_SERVER_URL}/user/register`, { name, email, password })
       .then(result =>{
         console.log(result)
         navigate('/')

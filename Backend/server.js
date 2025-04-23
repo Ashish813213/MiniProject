@@ -5,12 +5,10 @@ const UserModel = require('./models/User');
 const bcrypt = require('bcrypt');
 const connectDB  = require('./connection');
 const UserRouter = require('./routes/User')
-
+require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
 app.use(cors());
 
   connectDB().then(() => {

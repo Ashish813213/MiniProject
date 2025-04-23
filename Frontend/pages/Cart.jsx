@@ -54,7 +54,7 @@ const Cart = () => {
 
   const borrowBook = (userId, itemId, returnDate) => {
     axios
-      .put('http://localhost:3001/user/BorrowBook', { userId, itemId, returnDate })
+      .put(`${import.meta.env.VITE_SERVER_URL}/user/BorrowBook`, { userId, itemId, returnDate })
       .then((response) => {
         console.log('Book borrowed successfully:', response.data);
         console.log('Borrowed book with ID:', itemId, 'Return Date:', returnDate);

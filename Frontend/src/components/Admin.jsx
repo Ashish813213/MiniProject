@@ -9,7 +9,7 @@ const Admin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/user/adminLogin', {
+      const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/adminLogin`, {
         email,
         password,
       });

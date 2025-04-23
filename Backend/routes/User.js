@@ -283,8 +283,8 @@ router.get('/api/user/borrowed-books/:userId', async (req, res) => {
 
   router.post('/create-order', async (req, res) => {
     const razorpayInstance = new Razorpay({
-        key_id: "rzp_test_MYbcSbMch66v2D", // Use environment variables for security
-        key_secret: "rBIpnF3m899kIRGvlWOZVKBS",
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
 
     const { amount, currency } = req.body;

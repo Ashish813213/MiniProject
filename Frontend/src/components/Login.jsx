@@ -11,11 +11,12 @@ const Login = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault();
+      console.log(import.meta.env.VITE_SERVER_URL)
       console.log(email)
       // setError('');
   
       axios
-        .post('http://localhost:3001/user/login', { email, password })
+        .post(`${import.meta.env.VITE_SERVER_URL}/user/login`, { email, password })
         .then((result) => {
           console.log('Login successful:', result);
           localStorage.setItem('userId', result.data);

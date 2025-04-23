@@ -6,7 +6,7 @@ import  { useState, useEffect } from "react";
 const handlePayment = async () => {
     try {
         // Create order via backend
-        const response = await axios.post('http://localhost:3001/user/create-order', {
+        const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/create-order`, {
             amount: 500, // Amount in rupees
             currency: 'INR',
         });
@@ -15,7 +15,7 @@ const handlePayment = async () => {
 
         // Set up RazorPay options
         const options = {
-            key: "rzp_test_MYbcSbMch66v2D", // Replace with your RazorPay Key ID
+            key: import.meta.env.VITE_RAZORPAY_KEY, // Replace with your RazorPay Key ID
             amount: amount,
             currency: currency,
             name: "Library System",
@@ -94,7 +94,7 @@ const Dashboard = () => {
               return;
             }
             // Fetch user details
-            const userResponse = await axios.get(`http://localhost:3001/user/${id}`);
+            const userResponse = await axios.get(`${import.meta.env.VITE_SERVER_URL}/user/${id}`);
             setUser({
               name: userResponse.data.name,
               email: userResponse.data.email,
@@ -102,7 +102,7 @@ const Dashboard = () => {
             });
             // Fetch borrowed books
             const booksResponse = await axios.get(
-              `http://localhost:3001/user/api/user/borrowed-books/${id}`
+              `${import.meta.env.VITE_SERVER_URL}/user/api/user/borrowed-books/${id}`
             );
             setBooksTaken(booksResponse.data.data); // Store borrowed books in state
           } catch (err) {

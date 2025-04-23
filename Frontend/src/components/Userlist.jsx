@@ -5,7 +5,7 @@ const UserList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3001/user/api/users")
+    fetch(`${import.meta.env.VITE_SERVER_URL}/user/api/users`)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);

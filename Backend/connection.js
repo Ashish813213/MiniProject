@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 async function connect() { 
-    return mongoose.connect('mongodb+srv://ashishsharma12549:RYdCpOGuEEJ5Iy3d@miniproject.7x3on.mongodb.net/?retryWrites=true&w=majority&appName=MiniProject');
+    return mongoose.connect(process.env.MONGODB_URI);
     // ashishsharma12549
     // RYdCpOGuEEJ5Iy3d
 }
