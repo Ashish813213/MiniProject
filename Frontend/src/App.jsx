@@ -49,7 +49,10 @@ const App = () => {
             <Route path="/books" element={<Book />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/dashboard" element={<Dashboard />} />
+<<<<<<< HEAD
             <Route path="/" element={<Dashboard />} />
+=======
+>>>>>>> cf1d681f54151ac11ca29cf2dc8b3d2101c8e585
           </Route>
 
           {/* Admin Protected Routes (Only for Admins) */}
