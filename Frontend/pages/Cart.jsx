@@ -11,13 +11,11 @@ const Cart = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [returnDate, setReturnDate] = useState('');
 
-  // Open Remove Confirmation Modal
   const openRemoveModal = (item) => {
     setSelectedItem(item);
     setModalIsOpen(true);
   };
 
-  // Open Borrow Modal
   const openBorrowModal = (item) => {
     setSelectedItem(item);
     setBorrowModalIsOpen(true);
@@ -34,7 +32,6 @@ const Cart = () => {
     setReturnDate('');
   };
 
-  // Handle Remove
   const handleRemove = () => {
     if (selectedItem) {
       removeFromCart(selectedItem._id);
@@ -42,12 +39,12 @@ const Cart = () => {
     closeRemoveModal();
   };
 
-  // Handle Borrow
   const handleBorrow = () => {
     if (selectedItem && returnDate) {
       const userId = localStorage.getItem("userId");
       console.log(userId);
-      borrowBook(userId, selectedItem._id, returnDate); // Function to update user and book models
+      borrowBook(userId, selectedItem._id, returnDate); 
+      handleRemove(); 
       closeBorrowModal();
     }
   };
@@ -63,19 +60,19 @@ const Cart = () => {
         console.error('Error borrowing book:', error);
   
         if (error.response) {
-          // The request was made and the server responded with a status code
+
           console.error('Response data:', error.response.data);
           console.error('Response status:', error.response.status);
           console.error('Response headers:', error.response.headers);
         } else if (error.request) {
-          // The request was made but no response was received
+
           console.error('No response received:', error.request);
         } else {
-          // Something happened in setting up the request
+
           console.error('Error:', error.message);
         }
   
-        // Display a user-friendly error message
+
         alert('Failed to borrow the book. Please try again.');
       });
   };

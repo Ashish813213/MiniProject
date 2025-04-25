@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Register from './components/Register';
 import Admin from './components/Admin';
 import Navbar from './components/Navbar';
-import Home from '../pages/Home';
+
 import Book from '../pages/Book';
 import Cart from '../pages/Cart';
 import UserList from './components/Userlist';
@@ -15,10 +15,9 @@ import ProtectedRoutes from './components/ProtectedRoutes';
 import AdminRoutes from './components/AdminRoutes';
 import HeroPage from '../pages/HeroPage';
 
-
 const App = () => {
   const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')) || false;
-  const userRole = localStorage.getItem('role'); // "admin" or "user"
+  const role = localStorage.getItem('role'); // "admin" or "user"
 
   return (
     <Router>
@@ -28,42 +27,38 @@ const App = () => {
           {/* Public Routes */}
           {!isLoggedIn ? (
             <>
-              {/* <Route path="/" element={<UserLogin />} /> */}
               <Route path="/login" element={<UserLogin />} />
               <Route path="/register" element={<Register />} />
               <Route path="/admin" element={<Admin />} />
-              <Route path ="/hero" element={<HeroPage/>}/>
-              <Route path ="/" element={<HeroPage/>}/>
-              
+              <Route path="/hero" element={<HeroPage />} />
+              <Route path="/" element={<HeroPage />} />
             </>
           ) : (
             <>
-            <Route path ="/hero" element={<HeroPage/>} />
-            <Route path="*" element={<Navigate to="/" />} />
+              <Route path="/hero" element={<HeroPage />} />
+              {/* <Route path="*" element={<Navigate to="/" />} /> */}
             </>
           )}
 
           {/* General Protected Routes (For All Logged-in Users) */}
+          
           <Route element={<ProtectedRoutes />}>
             <Route path="/home" element={<Dashboard />} />
-            <Route path="/books" element={<Book />} />
+            <Route path="/book" element={<Book />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/dashboard" element={<Dashboard />} />
-<<<<<<< HEAD
             <Route path="/" element={<Dashboard />} />
-=======
->>>>>>> cf1d681f54151ac11ca29cf2dc8b3d2101c8e585
+            <Route path="*" element={<Navigate to="/dashboard" />} />
           </Route>
 
           {/* Admin Protected Routes (Only for Admins) */}
-          {userRole === 'admin' && (
-            <Route element={<AdminRoutes />}>
-              <Route path="/" element={<AdminPanel />} />
-              <Route path="/adminpanel" element={<AdminPanel />} />
-              <Route path="/users" element={<UserList />} />
-              <Route path="/analytics" element={<Analytics />} />
-            </Route>
-          )}
+          <Route element={<AdminRoutes />}>
+            <Route path="/adminpanel" element={<AdminPanel />} />
+            <Route path="/books" element={<Book />} />
+            <Route path="/users" element={<UserList />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="*" element={<AdminPanel />} />
+          </Route>
 
           {/* Redirect unknown routes */}
           <Route path="*" element={<Navigate to="/" />} />

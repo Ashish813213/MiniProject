@@ -9,8 +9,8 @@ const UserSchema = new mongoose.Schema({
     password: String,
     phone_no: {
         type: String,
-        required: true,
-        unique: true
+        required: false,
+        unique: false
     },
     BooksBorrowed: [
         {

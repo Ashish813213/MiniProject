@@ -339,4 +339,56 @@ router.post("/api/removeBook", async (req, res) => {
     }
 });
 
+
+router.post('/api/userRemoveBook', async (req, res) => {
+    const { userId, bookId } = req.body;
+
+    try {
+        const user = await UserModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const updatedUser = await UserModel.findByIdAndUpdate(
+            userId,
+            { $pull: { BooksBorrowed: { bookId } } },
+            { new: true }
+        );
+        res.status(200).json({ message: 'Book removed from user successfully', updatedUser });
+    } catch (error) {
+        console.error('Error removing book from user:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
+
+router.post('/api/useremoveBook', async (req, res) => {
+  const { userId, bookId } = req.body;
+
+  if (!userId || !bookId) {
+      return res.status(400).json({ error: 'userId and bookId are required' });
+  }
+
+  try {
+      const user = await UserModel.findById(userId);
+      console.log('User document:', user);
+      const book = await BookModel.findById(bookId);
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      user.BooksBorrowed = user.BooksBorrowed.filter(book => book.bookId !== bookId);
+      book.borrowedBy = book.borrowedBy.filter(borrower => borrower.userId !== userId);
+      console.log('Filtered BooksBorrowed:', user.BooksBorrowed);
+      console.log('Updated BooksBorrowed:', user.BooksBorrowed);
+      await book.save();
+      await user.save();
+
+      res.json({ message: 'Book removed successfully', user });
+  } catch (error) {
+      console.error('Error occurred:', error);
+      res.status(500).json({ error: 'An error occurred while removing the book: ' + error.message });
+  }
+});
+
+
 module.exports = router;

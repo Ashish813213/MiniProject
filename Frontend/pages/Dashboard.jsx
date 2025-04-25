@@ -3,11 +3,11 @@ import '../src/assets/Dashboard.css';
 import axios from "axios"
 import  { useState, useEffect } from "react";
 
-const handlePayment = async () => {
+const handlePayment = async (fineAmount ,user , bookId) => {
     try {
         // Create order via backend
         const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/create-order`, {
-            amount: 500, // Amount in rupees
+            amount: fineAmount, // Amount in rupees
             currency: 'INR',
         });
 
@@ -21,13 +21,14 @@ const handlePayment = async () => {
             name: "Library System",
             description: "Test Transaction",
             order_id: order_id,
-            handler: (response) => {
-                alert(`Payment Successful! Payment ID: ${ response.razorpay_payment_id }`);
+            handler: async (response) => {
+                alert(`Payment Successful! Payment ID: ${ response.razorpay_payment_id } ${bookId}`);
+                removeBook(bookId); // Call removeBook function after successful payment
             },
             prefill: {
-                name: "Ashish Sharma",
-                email: "Ashishsharma12549@gmail.com",
-                contact: "9999999999",
+              name: user.name,
+              email: user.email,
+              contact: user.Phone_no,
             },
             theme: {
                 color: "#3399cc",
@@ -41,7 +42,20 @@ const handlePayment = async () => {
     }
 };
 
+const removeBook = async (bookId) => {
+  let userId =  localStorage.getItem("userId")
+    try {
+        const response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/api/useremoveBook`, {
+          userId: userId,
+          bookId: bookId
+        });
+        console.log('Book removed:', response.data);
 
+    } catch (error) {
+        console.error('Error removing book:', error);
+    }
+};
+      
 
 const checkDUE = (dueDate) => {
     const CurrentDate = new Date();
@@ -52,27 +66,46 @@ const checkDUE = (dueDate) => {
     return false;
 
 }
-const BookCard = ({ title, author, dueDate , Url ,borrowedBy }) => (
-    
-    <div className="book-card">
-        <div className="book-content">
-            <img src= {Url} alt="Book cover" className="book-image" />
-            <div className="book-details">
-                <h4 className="book-title">{title}</h4>
-                <p className="book-author">{author}</p>
-                <p className="book-due">Due Date: {borrowedBy[0].returnDate}</p>
-                <button className="renew-button">Renew</button>
-                {checkDUE(borrowedBy[0].returnDate) && (
-                    <>
-                    {console.log(borrowedBy.returnDate + " " + dueDate)}
-                        <button className="Pay-Fine" onClick={handlePayment}> Pay Fine</button>
-                    </>
-                )}
 
-            </div>
-        </div>
-    </div>
-);
+const calculateFine = (dueDate) => {
+  const due = new Date(dueDate);
+  const now = new Date();
+  const diffTime = now - due;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays > 0 ? diffDays * 5 : 0; // ₹5 fine per day
+};
+
+
+const BookCard = ({ _id, title, author, dueDate, Url, borrowedBy , user }) => {
+  const returnDate = borrowedBy[0]?.returnDate;
+  const isOverdue = checkDUE(returnDate);
+  const fineAmount = calculateFine(returnDate);
+
+  return (
+      <div className="book-card">
+          <div className="book-content">
+              <img src={Url} alt="Book cover" className="book-image" />
+              <div className="book-details">
+                  <h4 className="book-title">{title}</h4>
+                  <p className="book-author">{author}</p>
+                  <p className="book-due">Due Date: {returnDate}</p>
+                  {!isOverdue && (
+                        <button className="renew-button">Renew</button>
+                    )}
+
+                    {isOverdue && (
+                        <>  
+                        {console.log(_id)}
+                            <p className="fine-amount">Fine: ₹{fineAmount}</p>
+                            <button className="Pay-Fine" onClick={() => handlePayment(fineAmount , user, _id)}>Pay Fine</button>
+                        </>
+                    )}
+              </div>
+          </div>
+      </div>
+  );
+};
+
 
 const Dashboard = () => {
 
@@ -159,8 +192,9 @@ const Dashboard = () => {
                     <div className="books-grid">
                         {console.log(booksTaken)}
                         {booksTaken.map(book => (
-                            
-                            <BookCard  key={book.id} {...book} />
+                            <>
+                            <BookCard  key={book.id} {...book} user={user} />
+                            </>
                         ))}
                     </div>
                 </div>

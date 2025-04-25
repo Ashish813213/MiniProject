@@ -84,7 +84,7 @@ const Book = () => {
               />
             </div>
 
-            <div className="DescriptionC ${}" style={{ textAlign: 'center', marginTop: '12px' }}>
+            <div className="DescriptionC" style={{ textAlign: 'center', marginTop: '12px' }}>
               <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '8px' }}>{book.title}</h3>
               <p style={{ fontSize: '14px', color: '#666', marginBottom: '12px' }}>{book.description}</p>
 
@@ -104,7 +104,7 @@ const Book = () => {
                 <button
                   style={{ background: '#4f46e5', padding: '12px 8px', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
                   onClick={() => handleAddToCart(book)}
-                  disabled={isDisabled}
+                  disabled={isDisabled(book)} // Disable button if book is borrowed
                 >
                   Add to cart
                 </button>

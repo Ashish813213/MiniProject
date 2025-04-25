@@ -19,7 +19,7 @@ const Register = () => {
       axios.post(`${import.meta.env.VITE_SERVER_URL}/user/register`, { name, email, password })
       .then(result =>{
         console.log(result)
-        navigate('/')
+        navigate('/login')
       })
       .catch(err => console.log(err))
     }

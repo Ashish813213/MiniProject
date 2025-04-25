@@ -23,7 +23,7 @@ const Navbar = () => {
           {isLoggedIn && userRole === 'user' && (
             <>
               <Link to="/home" className="text-white hover:text-gray-200">Home</Link>
-              <Link to="/books" className="text-white hover:text-gray-200">Books</Link>
+              <Link to="/book" className="text-white hover:text-gray-200">Books</Link>
               <Link to="/cart" className="text-white hover:text-gray-200">Cart</Link>
             </>
           )}
